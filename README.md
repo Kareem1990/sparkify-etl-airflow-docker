@@ -206,7 +206,7 @@ Steps:
 6. Stop Execution – Dummy task
 
 **Screenshot:**
-![DAG Graph](screenshots/6.png)
+![DAG Graph](screenshots/tasks.png)
 **DAG Success:**
 ![DAG Success](screenshots/dag-success.png)
 
@@ -273,7 +273,7 @@ To destroy the AWS infrastructure:
 terraform destroy -auto-approve
 ```
 
-![Terraform destroy](screenshots/password-editor.png)
+![Terraform destroy](screenshots/terraform-destroy.png)
 
 To remove Airflow containers:
 
