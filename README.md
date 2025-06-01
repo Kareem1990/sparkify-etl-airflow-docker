@@ -187,9 +187,11 @@ If your Redshift password needs to be manually updated (this is often required *
 **Screenshot:**
 ![Admin Credentials](screenshots/change-redshift-password.png)
 
-**Connection Dialog:**
+**Copy and paste Redshift password:**
 ![Create the credentials in the .env](screenshots/password-editor.png)
 
+🔑 Copy the Redshift admin password from the AWS Console and paste it into your .env file. The connection between Airflow and Redshift inside Docker uses this format: redshift-cluster-name.region.redshift-serverless.amazonaws.com:5439/dev.
+Alternatively, you can create your own custom password and update it in the Redshift admin credentials. Just make sure the password (and username) in your .env file matches exactly with what's set in the Redshift workgroup settings.
 ---
 
 ## DAG Overview
@@ -219,8 +221,8 @@ Steps:
 Click ▶️ in Airflow for `sparkify_etl_dag`.
 
 **Screenshot:**
-![DAG Triggered](screenshots/dag-ui.png)
-![DAG Success](screenshots/dag-success.png)
+
+![DAG testing](screenshots/testing.png)
 
 ### Option 2: Manual Task Testing
 
