@@ -1,0 +1,6 @@
+apache-airflow==2.7.3
+apache-airflow-providers-postgres
+apache-airflow-providers-amazon
+boto3
+psycopg2-binary
+sqlalchemy-redshift

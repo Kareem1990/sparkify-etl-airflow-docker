@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+
+# Airflow
+airflow.db
+airflow.cfg
+logs/
+*.log
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+
+# Docker
+*.pid
+
+# Environment & credentials
+.env
+.aws_credentials.json
+
+# VSCode
+.vscode/
+
+# Virtual environments
+airflow_env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Screenshots (optional, if you don't want to track them)
+# screenshots/
