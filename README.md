@@ -14,10 +14,10 @@
 * [Setup & Installation](#setup--installation)
 * [AWS Infrastructure with Terraform](#aws-infrastructure-with-terraform)
 * [Running Airflow with Docker](#running-airflow-with-docker)
-* [DAG Overview](#dag-overview)
-* [SQL Schema & Query Testing](#sql-schema--query-testing)
-* [Testing & Validation](#testing--validation)
 * [Redshift Admin Password Fix](#redshift-admin-password-manual-fix)
+* [DAG Overview](#dag-overview)
+* [Testing & Validation](#testing--validation)
+* [SQL Schema & Query Testing](#sql-schema--query-testing)
 * [Cleanup & Costs](#cleanup--costs)
 * [Troubleshooting](#troubleshooting)
 * [Project Structure](#project-structure)
@@ -80,10 +80,6 @@ GitHub Repo: [https://github.com/Kareem1990/sparkify-etl-airflow](https://github
          | - Triggers DAG via CLI                    |
          +-------------------------------------------+
 ```
-
-* Airflow runs in Docker containers
-* Terraform provisions AWS resources: Redshift, IAM, S3, Security Groups
-* ETL DAG stages data from S3 to Redshift, loads fact/dimension tables, and runs data quality checks
 
 ---
 
@@ -172,6 +168,28 @@ airflow users create \
   --password strongpassword
 ```
 
+**Screenshot:**
+![Airflow UI](screenshots/dag-ui.png)
+
+---
+
+## Redshift Admin Password (Manual Fix)
+
+If your Redshift password needs to be manually updated (this is often required **before running the DAG**):
+
+1. Go to AWS Console → Redshift → Workgroup Settings
+2. Click "Modify workgroup"
+3. Choose "Customize admin credentials"
+4. Enter new username/password
+5. Save and wait for changes to apply
+6. Update the `.env` file with the new password
+
+**Screenshot:**
+![Admin Credentials](screenshots/change-redshift-password.png)
+
+**Connection Dialog:**
+![Create the credentials in the .env](screenshots/password-editor.png)
+
 ---
 
 ## DAG Overview
@@ -191,29 +209,6 @@ Steps:
 ![DAG Graph](screenshots/6.png)
 **DAG Success:**
 ![DAG Success](screenshots/dag-success.png)
-
----
-
-## SQL Schema & Query Testing
-
-After running the DAG, you can connect to Redshift Query Editor v2 and run:
-
-```sql
-SELECT COUNT(*) FROM users;
-SELECT COUNT(*) FROM songplays;
-SELECT * FROM songplays LIMIT 10;
-```
-
-**Screenshots:**
-
-* Linking redshift to the query editor:
-  ![Connecting redshift to query editors](screenshots/connecting-redshift-to-query-editor.png)
-* Users Count:
-  ![Users Count](screenshots/redshift-query2.png)
-* Songplays Count:
-  ![Songplays Count](screenshots/redshift-query3.png)
-* Songplays Preview:
-  ![Songplays Preview](screenshots/redshift-query1.png)
 
 ---
 
@@ -244,34 +239,31 @@ airflow tasks test sparkify_etl_dag Stop_execution 2025-01-01
 
 ---
 
-## Redshift Admin Password (Manual Fix)
+## SQL Schema & Query Testing
 
-If your Redshift password needs to be manually updated:
+After running the DAG, you can connect to Redshift Query Editor v2 and run:
 
-1. Go to AWS Console → Redshift → Workgroup Settings
-2. Click "Modify workgroup"
-3. Choose "Customize admin credentials"
-4. Enter new username/password
-5. Save and wait for changes to apply
+```sql
+SELECT COUNT(*) FROM users;
+SELECT COUNT(*) FROM songplays;
+SELECT * FROM songplays LIMIT 10;
+SELECT DISTINCT user_id FROM users WHERE level = 'paid';
+```
 
-**Screenshot:**
-![Admin Credentials](screenshots/change-redshift-password.png)
+**Screenshots:**
 
-**Connection Dialog:**
-![Create the credentials in the .env](screenshots/password-editor.png)
+* Linking redshift to the query editor:
+  ![Connecting redshift to query editors](screenshots/connecting-redshift-to-query-editor.png)
+* Users Count:
+  ![Users Count](screenshots/redshift-query2.png)
+* Songplays Count:
+  ![Songplays Count](screenshots/redshift-query3.png)
+* Songplays Preview:
+  ![Songplays Preview](screenshots/redshift-query1.png)
 
 ---
 
 ## Cleanup & Costs
-
-### Run Final Queries (Optional)
-
-Before destroying resources, you may want to validate the final dataset:
-
-```sql
-SELECT COUNT(*) FROM songplays;
-SELECT DISTINCT user_id FROM users WHERE level = 'paid';
-```
 
 ### Cleanup
 
