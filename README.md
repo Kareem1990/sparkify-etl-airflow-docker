@@ -2,7 +2,7 @@
 
 ## Project Banner
 
-![Banner](screenshots/1.png)
+![Banner](screenshots/dag-ui/1.png)
 
 ---
 
@@ -43,7 +43,41 @@ GitHub Repo: [https://github.com/Kareem1990/sparkify-etl-airflow](https://github
 
 ## Architecture
 
-![Architecture](screenshots/2.png)
+                +-----------------------------+
+                |     Terraform (IaC Tool)    |
+                |-----------------------------|
+                |  Provisions AWS Resources:  |
+                |  - S3 Bucket                |
+                |  - Redshift Serverless      |
+                |  - IAM Roles/Policies       |
+                +-------------+---------------+
+                              |
+                              v
+     +------------------------+--------------------------+
+     |                  AWS Cloud Infrastructure         |
+     |---------------------------------------------------|
+     |  S3 (raw data)     -->    Redshift (data warehouse)|
+     +------------------------+--------------------------+
+                              ^
+                              |
+         +--------------------+----------------------+
+         |     Airflow (in Docker containers)        |
+         |-------------------------------------------|
+         | DAG: sparkify_etl_dag                     |
+         | - Stage data from S3 to Redshift          |
+         | - Load fact & dimension tables            |
+         | - Run data quality checks                 |
+         +--------------------+----------------------+
+                              ^
+                              |
+         +--------------------+----------------------+
+         |    run_all.sh (shell script entrypoint)   |
+         |-------------------------------------------|
+         | - Loads .env vars                         |
+         | - Runs Terraform init/apply               |
+         | - Triggers DAG via CLI                    |
+         +-------------------------------------------+
+
 
 * Airflow runs in Docker containers
 * Terraform provisions AWS resources: Redshift, IAM, S3, Security Groups
@@ -104,7 +138,7 @@ This script will:
 * Trigger the Airflow DAG
 
 **Screenshot:**
-![Terraform Apply](screenshots/sparkify-namespace.png)
+![Terraform Apply](screenshots/terraform-apply.png)
 
 ---
 
@@ -134,10 +168,6 @@ airflow users create \
   --email admin@example.com \
   --password strongpassword
 ```
-
-**Screenshot:**
-![Airflow UI](screenshots/5.png)
-
 ---
 
 ## DAG Overview
@@ -171,13 +201,15 @@ SELECT * FROM songplays LIMIT 10;
 ```
 
 **Screenshots:**
-
+* Linking redshift to the query editor:
+  ![Connecting redshift to query editors](screenshots\connecting-redshift-to-query-editor.png)
 * Users Count:
   ![Users Count](screenshots/redshift-query2.png)
 * Songplays Count:
   ![Songplays Count](screenshots/redshift-query3.png)
 * Songplays Preview:
   ![Songplays Preview](screenshots/redshift-query1.png)
+
 
 ---
 
@@ -188,7 +220,8 @@ SELECT * FROM songplays LIMIT 10;
 Click ▶️ in Airflow for `sparkify_etl_dag`.
 
 **Screenshot:**
-![DAG Triggered](screenshots/11.png)
+![DAG Triggered](screenshots/dag-ui.png)
+![DAG Success](screenshots/dag-success.png)
 
 ### Option 2: Manual Task Testing
 
@@ -221,7 +254,7 @@ If your Redshift password needs to be manually updated:
 ![Admin Credentials](screenshots/change-redshift-password.png)
 
 **Connection Dialog:**
-![Connect](screenshots/connecting-redshift-to-query-editor.png)
+![Create the credentials in the .env](screenshots/password-editor.png)
 
 ---
 
@@ -234,7 +267,7 @@ To destroy the AWS infrastructure:
 ```bash
 terraform destroy -auto-approve
 ```
-
+![Terraform destroy](screenshots/password-editor.png)
 To remove Airflow containers:
 
 ```bash
