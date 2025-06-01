@@ -6,6 +6,9 @@ set -a
 source .env
 set +a
 
+echo "🐍 Installing Python dependencies..."
+pip install --quiet -r requirements.txt
+
 echo "🚀 Running Terraform (init + apply)..."
 terraform init
 terraform apply -auto-approve

@@ -2,7 +2,7 @@
 
 ## Project Banner
 
-![Banner](screenshots/dag-ui/1.png)
+![Banner](screenshots/airflow-banner.png)
 
 ---
 
@@ -43,6 +43,7 @@ GitHub Repo: [https://github.com/Kareem1990/sparkify-etl-airflow](https://github
 
 ## Architecture
 
+```
                 +-----------------------------+
                 |     Terraform (IaC Tool)    |
                 |-----------------------------|
@@ -73,11 +74,12 @@ GitHub Repo: [https://github.com/Kareem1990/sparkify-etl-airflow](https://github
          +--------------------+----------------------+
          |    run_all.sh (shell script entrypoint)   |
          |-------------------------------------------|
+         | - Installs requirements.txt dependencies  |
          | - Loads .env vars                         |
          | - Runs Terraform init/apply               |
          | - Triggers DAG via CLI                    |
          +-------------------------------------------+
-
+```
 
 * Airflow runs in Docker containers
 * Terraform provisions AWS resources: Redshift, IAM, S3, Security Groups
@@ -133,6 +135,7 @@ chmod +x run_all.sh
 
 This script will:
 
+* Install Python dependencies from `requirements.txt`
 * Load `.env` vars
 * Run `terraform init` & `terraform apply`
 * Trigger the Airflow DAG
@@ -151,7 +154,7 @@ docker-compose up --build
 ```
 
 **Screenshot:**
-![Docker Up](screenshots/4.png)
+![Docker Up](screenshots/docker-build.png)
 
 ### 2. Access Airflow
 
@@ -168,6 +171,7 @@ airflow users create \
   --email admin@example.com \
   --password strongpassword
 ```
+
 ---
 
 ## DAG Overview
@@ -201,15 +205,15 @@ SELECT * FROM songplays LIMIT 10;
 ```
 
 **Screenshots:**
+
 * Linking redshift to the query editor:
-  ![Connecting redshift to query editors](screenshots\connecting-redshift-to-query-editor.png)
+  ![Connecting redshift to query editors](screenshots/connecting-redshift-to-query-editor.png)
 * Users Count:
   ![Users Count](screenshots/redshift-query2.png)
 * Songplays Count:
   ![Songplays Count](screenshots/redshift-query3.png)
 * Songplays Preview:
   ![Songplays Preview](screenshots/redshift-query1.png)
-
 
 ---
 
@@ -260,6 +264,15 @@ If your Redshift password needs to be manually updated:
 
 ## Cleanup & Costs
 
+### Run Final Queries (Optional)
+
+Before destroying resources, you may want to validate the final dataset:
+
+```sql
+SELECT COUNT(*) FROM songplays;
+SELECT DISTINCT user_id FROM users WHERE level = 'paid';
+```
+
 ### Cleanup
 
 To destroy the AWS infrastructure:
@@ -267,7 +280,9 @@ To destroy the AWS infrastructure:
 ```bash
 terraform destroy -auto-approve
 ```
+
 ![Terraform destroy](screenshots/password-editor.png)
+
 To remove Airflow containers:
 
 ```bash
