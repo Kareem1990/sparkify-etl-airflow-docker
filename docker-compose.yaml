@@ -95,3 +95,15 @@ volumes:
 
 networks:
   airflow:
+# docker-compose.yaml
+#
+# This file defines a complete local Airflow development environment using Docker Compose.
+# It provisions the following services:
+#   - PostgreSQL: Metadata database for Airflow
+#   - Airflow Init: Initializes the Airflow database and creates an admin user
+#   - Airflow Webserver: Provides the Airflow UI at http://localhost:8080
+#   - Airflow Scheduler: Executes scheduled DAG tasks
+#
+# The setup also mounts your local DAGs, plugins, and SQL scripts into the containers,
+# and injects AWS/Redshift credentials via environment variables for seamless integration
+# with AWS Redshift Serverless and S3.
