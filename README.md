@@ -53,7 +53,7 @@ GitHub Repo: [https://github.com/Kareem1990/sparkify-etl-airflow](https://github
 
 ## Prerequisites
 
-Install the following before running the project:`
+Install the following before running the project:
 
 * [Docker Desktop](https://docs.docker.com/get-docker/)
 * [Terraform](https://developer.hashicorp.com/terraform/downloads)
@@ -104,7 +104,7 @@ This script will:
 * Trigger the Airflow DAG
 
 **Screenshot:**
-![Terraform Apply](screenshots/3.png)
+![Terraform Apply](screenshots/sparkify-namespace.png)
 
 ---
 
@@ -156,7 +156,7 @@ Steps:
 **Screenshot:**
 ![DAG Graph](screenshots/6.png)
 **DAG Success:**
-![DAG Success](screenshots/9.png)
+![DAG Success](screenshots/dag-success.png)
 
 ---
 
@@ -173,11 +173,11 @@ SELECT * FROM songplays LIMIT 10;
 **Screenshots:**
 
 * Users Count:
-  ![Users Count](screenshots/7.png)
+  ![Users Count](screenshots/redshift-query2.png)
 * Songplays Count:
-  ![Songplays Count](screenshots/8.png)
+  ![Songplays Count](screenshots/redshift-query3.png)
 * Songplays Preview:
-  ![Songplays Preview](screenshots/10.png)
+  ![Songplays Preview](screenshots/redshift-query1.png)
 
 ---
 
@@ -218,7 +218,10 @@ If your Redshift password needs to be manually updated:
 5. Save and wait for changes to apply
 
 **Screenshot:**
-![Admin Credentials](screenshots/12.png)
+![Admin Credentials](screenshots/change-redshift-password.png)
+
+**Connection Dialog:**
+![Connect](screenshots/connecting-redshift-to-query-editor.png)
 
 ---
 
