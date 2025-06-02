@@ -92,6 +92,9 @@ Install the following before running the project:
 * [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) (configured with credentials)
 * AWS account with permissions to create Redshift, IAM, and S3 resources
 
+⚠️ **Important:** This project requires **Docker Desktop** to be installed and running on your machine, as Airflow and other components run inside Docker containers. Please ensure Docker Desktop is properly installed and configured before proceeding.
+
+
 ---
 
 ## Setup & Installation
@@ -320,6 +323,19 @@ If left running, the Redshift Serverless environment may cost **\$1–\$3/day**,
 ```
 
 ---
+
+## Challenges
+
+During the development of this project, several challenges were encountered and overcome, including:
+
+- **Data Consistency and Joining:** Ensuring the join conditions between staging_events and staging_songs tables were accurate to avoid missing or incorrect records in the songplays fact table.
+- **Redshift Connectivity:** Handling authentication and connection issues with Redshift Serverless, including manual password resets and updating credentials in environment variables.
+- **Airflow Configuration:** Managing Airflow DAG dependencies and operators, especially custom operators, to work smoothly with the Redshift backend.
+- **Terraform State Management:** Properly managing Terraform state files to reliably provision and destroy AWS infrastructure.
+- **Local Development with Docker:** Running Airflow and other services via Docker Compose introduced challenges around volume mounting, network configuration, and service startup order.
+
+These challenges helped improve the robustness and reliability of the ETL pipeline and infrastructure automation.
+
 
 ## Contact
 
